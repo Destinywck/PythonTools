@@ -62,7 +62,7 @@ def getdetailinfo(url, agentlist):
     headers = {}
     headers['User_Agent'] = agentlist[rand]
     p = re.compile('<[^>]+>')
-    bs = BeautifulSoup(requests.get(url, headers=headers).text, "html.parser")
+    bs = BeautifulSoup(requests.get(url).text, "html.parser")
     buginfo = bs.find('td', attrs={'id': 'error_msg'})
     bugid = "Bug " + url.split("=")[1]
     status = " "
@@ -230,7 +230,7 @@ def getinfolist(urllist):
         detailinfo = getdetailinfo(url, User_Agent)
         if(detailinfo != None):
             result.append(detailinfo)
-            time.sleep(10)
+            time.sleep(20)
         i += 1
         if(int(url.split('=')[-1]) % 50 == 0):
             logger.info("Prosecced: " + url.split('=')[-1] + " urls.")
@@ -365,11 +365,11 @@ def writeInfoToXml(list, filename):
         assignedto_item.appendChild(assignedto_text)
         bug_item.appendChild(assignedto_item)
 
-        # component
-        component_item = doc.createElement('component')
-        component_text = doc.createTextNode(str(component))
-        component_item.appendChild(component_text)
-        bug_item.appendChild(component_item)
+        # product
+        product_item = doc.createElement('product')
+        product_text = doc.createTextNode(str(product))
+        product_item.appendChild(product_text)
+        bug_item.appendChild(product_item)
 
         # reporttime
         reporttime_item = doc.createElement('reporttime')
@@ -446,13 +446,14 @@ if __name__ == "__main__":
     #     begin = sys.argv[1]
     #     pathdir = sys.argv[2]
 
-    for i in range(61, 2000):
+
+    for i in range(86, 120):
         urllist = gentheurl(i, 500)
-        resultlist = multithread(urllist, 10)
+        resultlist = multithread(urllist, 5)
         path = "D:\\data\\eclipse\\bugreports\\bugs-" + str(i * 500 + 1) + "~" + str((i + 1) * 500) + ".xml"
         writeInfoToXml(resultlist, path)
         logger.info("Saved " + str(i * 500 + 1) + "~" + str((i + 1) * 500) + " to " + path)
         logger.info("Wait 3 minutes.")
-        second = sleeptime(0, 3, 0);
+        second = sleeptime(0, 0, 0);
         time.sleep(second)
         logger.info("Restart.")
