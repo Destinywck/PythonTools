@@ -150,7 +150,7 @@ def getdetailinfo(url, agentlist):
                     com['detail'] = " "
                 comments.append(com)
     else:
-        logger.info(buginfo.string.strip())
+        #logger.info(buginfo.string.strip())
         status = "This bug not exist"
         description = {}
         comments = []
@@ -230,9 +230,9 @@ def getinfolist(urllist):
         detailinfo = getdetailinfo(url, User_Agent)
         if(detailinfo != None):
             result.append(detailinfo)
-            time.sleep(20)
+            time.sleep(10)
         i += 1
-        if(int(url.split('=')[-1]) % 50 == 0):
+        if(i % 100 == 0):
             logger.info("Prosecced: " + url.split('=')[-1] + " urls.")
     return result
 
@@ -258,9 +258,9 @@ class myThread(threading.Thread):  # 继承父类threading.Thread
         self.resultlist = resultlist
 
     def run(self):  # 把要执行的代码写到run函数里面 线程在创建后会直接运行run函数
-        logger.info("Starting thread: " + str(self.threadID))
+        logger.info("Start thread: " + str(self.threadID))
         self.resultlist = getinfolist(self.urllist)
-        logger.info("Exiting thread: " + str(self.threadID))
+        logger.info("Exit thread: " + str(self.threadID))
 
     def getresult(self):
         return self.resultlist
@@ -447,13 +447,27 @@ if __name__ == "__main__":
     #     pathdir = sys.argv[2]
 
 
-    for i in range(86, 120):
-        urllist = gentheurl(i, 500)
-        resultlist = multithread(urllist, 5)
-        path = "D:\\data\\eclipse\\bugreports\\bugs-" + str(i * 500 + 1) + "~" + str((i + 1) * 500) + ".xml"
-        writeInfoToXml(resultlist, path)
-        logger.info("Saved " + str(i * 500 + 1) + "~" + str((i + 1) * 500) + " to " + path)
-        logger.info("Wait 3 minutes.")
-        second = sleeptime(0, 0, 0);
-        time.sleep(second)
-        logger.info("Restart.")
+    for i in range(275, 300):
+        urllist = gentheurl(i, 2000)
+        resultlist = multithread(urllist, 20)
+        resultdict = {}
+        for bug in resultlist:
+            if bug.product in resultdict:
+                resultdict[bug.product].append(bug)
+            else:
+                resultdict[bug.product] = []
+                resultdict[bug.product].append(bug)
+        for product in resultdict:
+            if(not os.path.exists("/Users/daniel/Documents/data/eclipse-bugs/" + product)):
+                os.makedirs("/Users/daniel/Documents/data/eclipse-bugs/" + product)
+            path = "/Users/daniel/Documents/data/eclipse-bugs/" + product + "/" + "bugs-" + str(i * 2000 + 1) + "~" + str((i + 1) * 2000) + ".xml"
+            writeInfoToXml(resultdict[product], path)
+        logger.info("Saved " + str((i + 1) * 2000) + "bugs.")
+
+        # path = "D:\\data\\eclipse\\bugreports\\bugs-" + str(i * 500 + 1) + "~" + str((i + 1) * 500) + ".xml"
+        # writeInfoToXml(resultlist, path)
+        # logger.info("Saved " + str(i * 500 + 1) + "~" + str((i + 1) * 500) + " to " + path)
+        # logger.info("Wait 3 minutes.")
+        # second = sleeptime(0, 0, 0);
+        # time.sleep(second)
+        # logger.info("Restart.")

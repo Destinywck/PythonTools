@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 #from sklearn.cross_validation import train_test_split
 from sklearn.grid_search import GridSearchCV
 #from sklearn.metrics import classification_report
