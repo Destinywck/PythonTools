@@ -1,0 +1,27 @@
+{
+    "dev_sample_percentage": 0.1,
+    "positive_data_file": "./data/rt-polaritydata/rt-polarity.pos",
+    "negative_data_file": "./data/rt-polaritydata/rt-polarity.neg",
+    "file_level_train_file": "./data/path_level_prediction/firstPathTrain-word.csv",
+    "file_level_test_file": "./data/path_level_prediction/firstPathTest-word.csv",
+
+    "file_level_label": "org.eclipse.jdt.junit",
+
+    "embedding_dim": 128,
+    "filter_sizes": "3,4,5",
+    "num_filters": 128,
+    "dropout_keep_prob": 0.5,
+    "l2_reg_lambda": 0.0,
+
+    "batch_size": 64,
+    "num_epochs": 200,
+    "evaluate_every": 10,
+    "checkpoint_every": 10,
+    "num_checkpoints": 5,
+
+    "allow_soft_placement": true,
+    "log_device_placement": false,
+
+    "eval_train": false,
+    "checkpoint_dir": "./runs/1515419758/checkpoints"
+}
