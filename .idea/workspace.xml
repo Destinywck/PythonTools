@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a19b4c8-805d-4138-8404-33ab8e01ab08" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/html_scrapyer/apacheBug.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/sklearn_test/classifier_comparison/plot_classifier_comparison.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/graph_llvm_ir/graph_llvm_ir.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/html_scrapyer/bugClassify.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/html_scrapyer/haha.py" afterPath="" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,14 +24,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="apacheBug.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/html_scrapyer/apacheBug.py">
+      <file leaf-file-name="graph_llvm_ir.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/graph_llvm_ir/graph_llvm_ir.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="388">
-              <caret line="86" column="53" lean-forward="true" selection-start-line="86" selection-start-column="53" selection-end-line="86" selection-end-column="53" />
+            <state relative-caret-position="628">
+              <caret line="219" column="27" lean-forward="true" selection-start-line="219" selection-start-column="27" selection-end-line="219" selection-end-column="27" />
               <folding>
-                <element signature="e#48#57#0" expanded="true" />
-                <element signature="e#8858#13413#0" expanded="false" />
+                <element signature="e#22#32#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -75,6 +71,7 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/sklearn_test/classifier_comparison/plot_classifier_comparison.py" />
         <option value="$PROJECT_DIR$/src/html_scrapyer/apacheBug.py" />
+        <option value="$PROJECT_DIR$/src/graph_llvm_ir/graph_llvm_ir.py" />
       </list>
     </option>
   </component>
@@ -85,10 +82,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-185" />
-    <option name="y" value="-23" />
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="x" value="1912" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -127,8 +124,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -141,29 +136,12 @@
               <item name="PythonTools" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="PythonTools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PythonTools" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="html_scrapyer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PythonTools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PythonTools" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="sklearn_test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PythonTools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PythonTools" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="sklearn_test" type="462c0819:PsiDirectoryNode" />
-              <item name="classifier_comparison" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -449,7 +427,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -491,13 +469,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/html_scrapyer/eclipseBug.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6735">
-          <caret line="449" column="22" lean-forward="false" selection-start-line="449" selection-start-column="22" selection-end-line="449" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/SVM/SKlearn_SVM.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -786,9 +757,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
           <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="e#149#167#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -796,7 +764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="93" column="17" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="472" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -804,33 +771,28 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2510">
           <caret line="18" column="30" lean-forward="false" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/html_scrapyer/haha.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/html_scrapyer/bugClassify.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/html_scrapyer/haha.py" />
+    <entry file="file://$PROJECT_DIR$/src/html_scrapyer/bugClassify.py" />
     <entry file="file://$PROJECT_DIR$/src/html_scrapyer/apacheBug.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="86" column="53" lean-forward="true" selection-start-line="86" selection-start-column="53" selection-end-line="86" selection-end-column="53" />
+        <state relative-caret-position="22">
+          <caret line="86" column="53" lean-forward="false" selection-start-line="86" selection-start-column="53" selection-end-line="86" selection-end-column="53" />
           <folding>
-            <element signature="e#48#57#0" expanded="true" />
+            <element signature="e#48#57#0" expanded="false" />
             <element signature="e#8858#13413#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/graph_llvm_ir/graph_llvm_ir.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="628">
+          <caret line="219" column="27" lean-forward="true" selection-start-line="219" selection-start-column="27" selection-end-line="219" selection-end-column="27" />
+          <folding>
+            <element signature="e#22#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
