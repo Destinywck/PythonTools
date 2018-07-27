@@ -1,2 +1,20 @@
 llvm-ssa:
   http://flint.cs.yale.edu/cs421/lectureNotes/Spring15/llvm.pdf
+
+#include "Logger.h"
+#include <ctime>
+#include <stdio.h>
+#include <string>
+
+namespace utils {
+
+void Logger::info(char* format, ...) {
+	if (_log_rank < log_rank::INFO)
+		return;
+	va_list arg_ptr;
+	va_start(arg_ptr, format);
+	char s[128];
+	_vsnprintf_s(s, sizeof(s) - 1, format, arg_ptr);
+	printf_s("INFO: %s, In File: %s, Line: %d.\r\n", s, __FILE__, __LINE__);
+	va_end(arg_ptr);
+}
