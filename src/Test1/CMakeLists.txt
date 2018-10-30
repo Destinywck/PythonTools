@@ -219,3 +219,235 @@ if (LLVM_DG)
 endif (LLVM_DG)
 
 
+lib:
+include_directories(${CMAKE_SOURCE_DIR}/lib)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+include_directories(${LLVM_INCLUDE_DIRS})
+message(STATUS "Looking for headers in: ${LLVM_INCLUDE_DIRS}")
+
+include_directories(${BOOST_INCLUDEDIR})
+message(STATUS "Looking for headers in: ${BOOST_INCLUDEDIR}")
+	
+add_library(DGAnalysis STATIC
+	${CMAKE_SOURCE_DIR}/include/analysis/Offset.h
+	${CMAKE_SOURCE_DIR}/include/ADT/DGContainer.h
+	${CMAKE_SOURCE_DIR}/include/ADT/Bitvector.h
+	${CMAKE_SOURCE_DIR}/include/ADT/Bits.h
+	${CMAKE_SOURCE_DIR}/include/ADT/NumberSet.h
+
+	analysis/Offset.cpp
+)
+set_target_properties(DGAnalysis PROPERTIES FOLDER "Librarys")
+
+add_library(PTA STATIC
+	${CMAKE_SOURCE_DIR}/include/analysis/SubgraphNode.h
+	${CMAKE_SOURCE_DIR}/include/analysis/PointsTo/Pointer.h
+	${CMAKE_SOURCE_DIR}/include/analysis/PointsTo/PointsToSet.h
+	${CMAKE_SOURCE_DIR}/include/analysis/PointsTo/MemoryObject.h
+	${CMAKE_SOURCE_DIR}/include/analysis/PointsTo/PointerSubgraph.h
+	${CMAKE_SOURCE_DIR}/include/analysis/PointsTo/PointerAnalysis.h
+	${CMAKE_SOURCE_DIR}/include/analysis/PointsTo/PointerAnalysisFI.h
+	${CMAKE_SOURCE_DIR}/include/analysis/PointsTo/PointerAnalysisFS.h
+	${CMAKE_SOURCE_DIR}/include/analysis/PointsTo/PointerSubgraphValidator.h
+
+	analysis/PointsTo/Pointer.cpp
+	analysis/PointsTo/PointerAnalysis.cpp
+	analysis/PointsTo/PointerSubgraphValidator.cpp
+)
+set_target_properties(PTA PROPERTIES FOLDER "Librarys")
+target_link_libraries(PTA PUBLIC DGAnalysis)
+
+add_library(RD STATIC
+	${CMAKE_SOURCE_DIR}/include/analysis/ReachingDefinitions/ReachingDefinitions.h
+	${CMAKE_SOURCE_DIR}/include/analysis/ReachingDefinitions/RDMap.h
+
+	analysis/ReachingDefinitions/Srg/MarkerSRGBuilderFI.h
+	analysis/ReachingDefinitions/Srg/MarkerSRGBuilderFS.h
+
+	analysis/ReachingDefinitions/RDMap.cpp
+	analysis/ReachingDefinitions/ReachingDefinitions.cpp
+	analysis/ReachingDefinitions/Srg/MarkerSRGBuilderFI.cpp
+	analysis/ReachingDefinitions/Srg/MarkerSRGBuilderFS.cpp
+)
+set_target_properties(RD PROPERTIES FOLDER "Librarys")
+target_link_libraries(RD PUBLIC DGAnalysis)
+
+
+if (LLVM_DG)
+
+add_library(LLVMpta STATIC
+	${CMAKE_SOURCE_DIR}/include/llvm/analysis/PointsTo/LLVMPointerSubgraph.h
+
+	llvm/MemAllocationFuncs.h
+	llvm/MemAllocationFuncs.cpp
+	llvm/analysis/PointsTo/LLVMPointerSubgraphValidator.h
+	llvm/analysis/PointsTo/LLVMPointerSubgraph.cpp
+	llvm/analysis/PointsTo/LLVMPointerSubgraphValidator.cpp
+	llvm/analysis/PointsTo/Structure.cpp
+	llvm/analysis/PointsTo/Globals.cpp
+	llvm/analysis/PointsTo/Constants.cpp
+	llvm/analysis/PointsTo/Instructions.cpp
+	llvm/analysis/PointsTo/Calls.cpp
+)
+set_target_properties(LLVMpta PROPERTIES FOLDER "Librarys")
+target_link_libraries(LLVMpta PUBLIC PTA)
+
+add_library(LLVMrd STATIC
+	llvm/MemAllocationFuncs.h
+	llvm/MemAllocationFuncs.cpp
+	llvm/analysis/ReachingDefinitions/LLVMRDBuilderSemisparse.cpp
+	llvm/analysis/ReachingDefinitions/LLVMRDBuilderDense.cpp
+	
+	${CMAKE_SOURCE_DIR}/include/llvm/analysis/ReachingDefinitions/LLVMReachingDefinitions.h
+	llvm/analysis/ReachingDefinitions/LLVMRDBuilder.h
+	llvm/analysis/ReachingDefinitions/LLVMRDBuilderSemisparse.h
+	llvm/analysis/ReachingDefinitions/LLVMRDBuilderDense.h
+)
+set_target_properties(LLVMrd PROPERTIES FOLDER "Librarys")
+target_link_libraries(LLVMrd
+			PUBLIC LLVMpta
+			PUBLIC RD)
+
+add_library(LLVMdg STATIC
+	${CMAKE_SOURCE_DIR}/include/BBlock.h
+	${CMAKE_SOURCE_DIR}/include/Node.h
+	${CMAKE_SOURCE_DIR}/include/DependenceGraph.h
+	${CMAKE_SOURCE_DIR}/include/llvm/LLVMNode.h
+	${CMAKE_SOURCE_DIR}/include/llvm/LLVMDependenceGraph.h
+	${CMAKE_SOURCE_DIR}/include/llvm/slicer.h
+	${CMAKE_SOURCE_DIR}/include/llvm/analysis/DefUse/DefUse.h
+
+	llvm/LLVMDGVerifier.h
+	llvm/llvm-utils.h
+
+	llvm/LLVMNode.cpp
+	llvm/LLVMDependenceGraph.cpp
+	llvm/LLVMDGVerifier.cpp
+	llvm/analysis/Dominators/PostDominators.cpp
+	llvm/analysis/DefUse/DefUse.cpp
+)
+set_target_properties(LLVMdg PROPERTIES FOLDER "Librarys")
+target_link_libraries(LLVMdg
+			PUBLIC LLVMpta
+			PUBLIC LLVMrd)
+			
+add_library(Utils STATIC
+	${CMAKE_SOURCE_DIR}/include/Utils/Logger.h
+	${CMAKE_SOURCE_DIR}/include/Utils/Strings.h
+	${CMAKE_SOURCE_DIR}/include/Utils/Systems.h
+	${CMAKE_SOURCE_DIR}/include/Utils/Timer.h
+	
+	Utils/Logger.cpp
+	Utils/Strings.cpp
+	Utils/Systems.cpp
+	Utils/Timer.cpp
+)
+set_target_properties(Utils PROPERTIES FOLDER "Librarys")
+
+add_library(LLParser STATIC
+	${CMAKE_SOURCE_DIR}/include/LLParser/asmParser/instFlags.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/asmParser/instParser.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/asmParser/irParser.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/asmParser/stringParser.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/allocaInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/bitcastInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/branchInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/callInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/callInstFamily.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/catchInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/divideInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/fcmpInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/icmpInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/getelementptrInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/invokeInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/loadInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/phiInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/inst/storeInst.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/ir/LabelValue.h
+	${CMAKE_SOURCE_DIR}/include/LLParser/ir/shadow.h
+	
+	LLParser/asmParser/instFlags.cpp
+	LLParser/asmParser/instParser.cpp
+	LLParser/asmParser/irParser.cpp
+	LLParser/asmParser/stringParser.cpp
+	LLParser/inst/allocaInst.cpp
+	LLParser/inst/bitcastInst.cpp
+	LLParser/inst/branchInst.cpp
+	LLParser/inst/callInst.cpp
+	LLParser/inst/callInstFamily.cpp
+	LLParser/inst/catchInst.cpp
+	LLParser/inst/divideInst.cpp
+	LLParser/inst/fcmpInst.cpp
+	LLParser/inst/icmpInst.cpp
+	LLParser/inst/getelementptrInst.cpp
+	LLParser/inst/invokeInst.cpp
+	LLParser/inst/loadInst.cpp
+	LLParser/inst/phiInst.cpp
+	LLParser/inst/storeInst.cpp
+	LLParser/ir/LabelValue.cpp
+	LLParser/ir/shadow.cpp
+)
+set_target_properties(LLParser PROPERTIES FOLDER "Librarys")
+target_link_libraries(LLParser PUBLIC Utils)
+
+add_library(SubgraphIso STATIC
+	${CMAKE_SOURCE_DIR}/include/GraphIso/graph/Container.h
+	${CMAKE_SOURCE_DIR}/include/GraphIso/graph/DotGraphReader.h
+	${CMAKE_SOURCE_DIR}/include/GraphIso/graph/Edge.h
+	${CMAKE_SOURCE_DIR}/include/GraphIso/graph/Graph.h
+	${CMAKE_SOURCE_DIR}/include/GraphIso/graph/Vertex.h
+	${CMAKE_SOURCE_DIR}/include/GraphIso/vf2/State.h
+	${CMAKE_SOURCE_DIR}/include/GraphIso/vf2/VF2.h
+
+	GraphIso/graph/DotGraphReader.cpp
+	GraphIso/graph/Edge.cpp
+	GraphIso/graph/Graph.cpp
+	GraphIso/graph/Vertex.cpp
+	GraphIso/vf2/State.cpp
+	GraphIso/vf2/VF2.cpp
+)
+set_target_properties(SubgraphIso PROPERTIES FOLDER "Librarys")
+target_link_libraries(SubgraphIso PUBLIC Utils)
+
+add_library(XMLParser STATIC
+	${CMAKE_SOURCE_DIR}/include/xml/slicer/XmlSlicer.h
+	${CMAKE_SOURCE_DIR}/include/xml/pugixml.hpp
+	
+	${CMAKE_SOURCE_DIR}/include/xml/pugixml.cpp
+	xml/slicer/XmlSlicer.cpp
+)
+set_target_properties(XMLParser PROPERTIES FOLDER "Librarys")
+target_link_libraries(XMLParser PUBLIC Utils)
+	
+add_library(BSubgraphIso STATIC
+	${BOOST_INCLUDEDIR}/boost/graph/vf2_sub_graph_iso.hpp
+	${BOOST_INCLUDEDIR}/boost/graph/graphviz.hpp
+	${BOOST_INCLUDEDIR}/boost/graph/graph_traits.hpp
+	${BOOST_INCLUDEDIR}/boost/graph/adjacency_list.hpp
+	${BOOST_INCLUDEDIR}/boost/pending/property.hpp
+	${CMAKE_SOURCE_DIR}/include/GraphIso/boost/GraphReader.h
+	${CMAKE_SOURCE_DIR}/include/GraphIso/boost/PropertyMap.h
+	${CMAKE_SOURCE_DIR}/include/GraphIso/boost/SubgraphIso.h
+	
+	GraphIso/boost/GraphReader.cpp
+	GraphIso/boost/PropertyMap.cpp
+	GraphIso/boost/SubgraphIso.cpp
+)
+set_target_properties(BSubgraphIso PROPERTIES FOLDER "Librarys")
+target_link_libraries(BSubgraphIso 
+	PUBLIC LLParser
+	PUBLIC Utils
+	PUBLIC ${Boost_LIBRARIES})
+	
+if(WIN32)
+  install(TARGETS Utils LLVMdg LLVMpta LLVMrd PTA RD DGAnalysis 
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+else()
+  install(TARGETS Utils LLVMdg LLVMpta LLVMrd PTA RD DGAnalysis 
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+endif()  
+
+endif(LLVM_DG)
+
+
