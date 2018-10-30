@@ -451,3 +451,30 @@ endif()
 endif(LLVM_DG)
 
 
+tests:
+include_directories(${CMAKE_SOURCE_DIR}/include)
+# these tools can access the private headers
+include_directories(${CMAKE_SOURCE_DIR}/lib)
+
+include_directories(${BOOST_INCLUDEDIR})
+message(STATUS "Looking for headers in: ${BOOST_INCLUDEDIR}")
+
+if (LLVM_DG)
+	add_executable(BSubgraphIsoTest BSubgraphIsoTest.cpp)
+	set_target_properties(BSubgraphIsoTest PROPERTIES FOLDER "Tests")
+	target_link_libraries(BSubgraphIsoTest
+				PRIVATE BSubgraphIso)
+
+	add_executable(SubgraphIsoTest SubgraphIsoTest.cpp)
+	set_target_properties(SubgraphIsoTest PROPERTIES FOLDER "Tests")
+	target_link_libraries(SubgraphIsoTest 
+				PRIVATE SubgraphIso)
+
+	add_executable(XMLParserTest XMLParserTest.cpp)
+	set_target_properties(XMLParserTest PROPERTIES FOLDER "Tests")
+	target_link_libraries(XMLParserTest
+				PRIVATE XMLParser)
+	
+	install(TARGETS XMLParserTest SubgraphIsoTest BSubgraphIsoTest
+		RUNTIME DESTINATION bin)
+endif (LLVM_DG)
