@@ -157,3 +157,65 @@ add_subdirectory(tests)
 
 install(DIRECTORY include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+
+
+
+tools:
+
+include_directories(${CMAKE_SOURCE_DIR}/include)
+# these Tools can access the private headers
+include_directories(${CMAKE_SOURCE_DIR}/lib)
+
+include_directories(${LLVM_INCLUDE_DIRS})
+message(STATUS "Looking for headers in: ${LLVM_INCLUDE_DIRS}")
+
+include_directories(${BOOST_INCLUDEDIR})
+message(STATUS "Looking for headers in: ${BOOST_INCLUDEDIR}")
+
+if (LLVM_DG)
+		
+	add_executable(llvm-dg-dump llvm-dg-dump.cpp)
+	set_target_properties(llvm-dg-dump PROPERTIES FOLDER "Tools")
+	target_link_libraries(llvm-dg-dump PRIVATE XMLParser)
+	target_link_libraries(llvm-dg-dump PRIVATE Utils)
+	target_link_libraries(llvm-dg-dump PRIVATE LLVMdg)
+	target_link_libraries(llvm-dg-dump
+				PRIVATE ${llvm_support}
+				PRIVATE ${llvm_analysis}
+				PRIVATE ${llvm_irreader}
+				PRIVATE ${llvm_bitwriter}
+				PRIVATE ${llvm_core}
+				PRIVATE ${llvm_passes}
+				PRIVATE ${llvm_object}
+				PRIVATE ${llvm_asmparser}
+				PRIVATE ${llvm_bitreader})
+
+	add_executable(llvm-slicer llvm-slicer.cpp)
+	set_target_properties(llvm-slicer PROPERTIES FOLDER "Tools")
+	target_link_libraries(llvm-slicer PRIVATE XMLParser)
+	target_link_libraries(llvm-slicer PRIVATE Utils)
+	target_link_libraries(llvm-slicer PRIVATE LLVMdg)
+	target_link_libraries(llvm-slicer
+				PRIVATE ${llvm_irreader}
+				PRIVATE ${llvm_bitwriter}
+				PRIVATE ${llvm_analysis}
+				PRIVATE ${llvm_support}
+				PRIVATE ${llvm_core}
+				PRIVATE ${llvm_passes}
+				PRIVATE ${llvm_object}
+				PRIVATE ${llvm_asmparser}
+				PRIVATE ${llvm_bitreader})
+
+	add_executable(iso-predictor iso-predictor.cpp)
+	set_target_properties(iso-predictor PROPERTIES FOLDER "Tools")
+	target_link_libraries(iso-predictor
+				PRIVATE BSubgraphIso
+				PRIVATE Utils
+				PRIVATE XMLParser)
+	
+	install(TARGETS llvm-dg-dump llvm-slicer iso-predictor
+		RUNTIME DESTINATION bin)
+endif (LLVM_DG)
+
+
